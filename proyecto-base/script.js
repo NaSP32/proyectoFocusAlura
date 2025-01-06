@@ -4,9 +4,12 @@ const botonCorto = document.querySelector('.app__card-button--corto');
 const botonLargo = document.querySelector('.app__card-button--largo');
 const banner = document.querySelector('.app__image');
 const titulo = document.querySelector('.app__title');
+const botones = document.querySelectorAll('.app__card-button');
 
+/*Actualizo los eventos de click de cada boton para crear un contexto*/
 botonEnfoque.addEventListener('click', () => {
     cambiarContexto('enfoque')
+    botonEnfoque.classList.add('active')
 })
 
 botonCorto.addEventListener('click', () => {
@@ -15,6 +18,7 @@ botonCorto.addEventListener('click', () => {
     banner.setAttribute('src', './imagenes/descanso-corto.png')*/
     /*optimizo con una function*/
     cambiarContexto('descanso-corto')
+    botonCorto.classList.add('active');
 
 })
 
@@ -23,10 +27,14 @@ botonLargo.addEventListener('click', () => {
     /*html.setAttribute('data-contexto', 'descanso-largo');
     banner.setAttribute('src', './imagenes/descanso-largo.png')*/
     cambiarContexto('descanso-largo')
+    botonLargo.classList.add('active');
 
 })
 
 function cambiarContexto(contexto){
+    botones.forEach(function(contexto){
+        contexto.classList.remove('active');
+    })
     html.setAttribute('data-contexto', contexto);
     banner.setAttribute('src',  `./imagenes/${contexto}.png`);
     switch (contexto) {
