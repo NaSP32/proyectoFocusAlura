@@ -80,13 +80,23 @@ function cambiarContexto(contexto){
 }
 
 const cuentaRegresiva = ()=>{
-    iniciarPausar()
+    if (tiempoTranscurridoEnSegundos <= 0){
+        reiniciar()
+        alert('Tiempo final')
+        return
+    }
+
     tiempoTranscurridoEnSegundos -= 1
     console.log("Temporizador"+tiempoTranscurridoEnSegundos);
 }
 
-botonIniciarPausar.addEventListener('click', cuentaRegresiva);
+botonIniciarPausar.addEventListener('click', iniciarPausar);
 
 function iniciarPausar () {
     idIntervalo = setInterval(cuentaRegresiva, 1000)
+}
+
+function reiniciar (){
+    clearInterval(idIntervalo)
+    idIntervalo = null
 }
