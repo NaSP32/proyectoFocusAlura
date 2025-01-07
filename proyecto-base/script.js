@@ -8,6 +8,9 @@ const botones = document.querySelectorAll('.app__card-button');
 const inputEnfoqueMusica = document.querySelector('#alternar-musica');
 const musica = new Audio('./sonidos/luna-rise-part-one.mp3');
 const botonIniciarPausar = document.querySelector('#start-pause');
+const iniciarTemporizador = new Audio('./sonidos/play.wav');
+const pausarTemporizador = new Audio('./sonidos/pause.mp3');
+const finTemporizador = new Audio('./sonidos/beep.mp3');
 
 let tiempoTranscurridoEnSegundos = 5;
 let idIntervalo = null;
@@ -22,6 +25,8 @@ inputEnfoqueMusica.addEventListener('change', ()=> {
         musica.pause()
     }
 })
+
+
 
 /*Actualizo los eventos de click de cada boton para crear un contexto*/
 botonEnfoque.addEventListener('click', () => {
@@ -81,6 +86,7 @@ function cambiarContexto(contexto){
 
 const cuentaRegresiva = ()=>{
     if (tiempoTranscurridoEnSegundos <= 0){
+        finTemporizador.play()
         reiniciar()
         alert('Tiempo final')
         return
@@ -93,10 +99,16 @@ const cuentaRegresiva = ()=>{
 botonIniciarPausar.addEventListener('click', iniciarPausar);
 
 function iniciarPausar () {
+    if (idIntervalo){
+        pausarTemporizador.play();
+        reiniciar()
+        return
+    }
+    iniciarTemporizador.play();
     idIntervalo = setInterval(cuentaRegresiva, 1000)
 }
 
 function reiniciar (){
     clearInterval(idIntervalo)
     idIntervalo = null
-}
+} 
