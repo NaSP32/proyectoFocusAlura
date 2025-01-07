@@ -12,8 +12,11 @@ const iniciarTemporizador = new Audio('./sonidos/play.wav');
 const pausarTemporizador = new Audio('./sonidos/pause.mp3');
 const finTemporizador = new Audio('./sonidos/beep.mp3');
 const textoIniciarPausar = document.querySelector('#start-pause span');
+const imagenIniciarPausar = document.querySelector('.app__card-primary-butto-icon');
+const tiempoEnPantalla = document.querySelector('#timer');
 
-let tiempoTranscurridoEnSegundos = 5;
+
+let tiempoTranscurridoEnSegundos = 1500;
 let idIntervalo = null;
 
 musica.loop=true;
@@ -31,6 +34,7 @@ inputEnfoqueMusica.addEventListener('change', ()=> {
 
 /*Actualizo los eventos de click de cada boton para crear un contexto*/
 botonEnfoque.addEventListener('click', () => {
+    tiempoTranscurridoEnSegundos = 1500;
     cambiarContexto('enfoque')
     botonEnfoque.classList.add('active')
 })
@@ -40,6 +44,7 @@ botonCorto.addEventListener('click', () => {
     html.setAttribute('data-contexto', 'descanso-corto' );
     banner.setAttribute('src', './imagenes/descanso-corto.png')*/
     /*optimizo con una function*/
+    tiempoTranscurridoEnSegundos = 300;
     cambiarContexto('descanso-corto')
     botonCorto.classList.add('active');
 
@@ -49,12 +54,15 @@ botonCorto.addEventListener('click', () => {
 botonLargo.addEventListener('click', () => {
     /*html.setAttribute('data-contexto', 'descanso-largo');
     banner.setAttribute('src', './imagenes/descanso-largo.png')*/
+    tiempoTranscurridoEnSegundos = 900;
     cambiarContexto('descanso-largo')
     botonLargo.classList.add('active');
 
 })
 
 function cambiarContexto(contexto){
+
+    mostrarTiempo();
     botones.forEach(function(contexto){
         contexto.classList.remove('active');
     })
@@ -89,15 +97,17 @@ function cambiarContexto(contexto){
 const cuentaRegresiva = ()=>{
     if (tiempoTranscurridoEnSegundos <= 0){
         finTemporizador.play()
-        reiniciar()
         alert('Tiempo final')
+        reiniciar()
         return
     }
-
+    
     /*Modifico el texto del boton con text content, interpreta todo como texto */
     textoIniciarPausar.textContent = "Pausar"
+    /**Logo pausa */
+    imagenIniciarPausar.setAttribute('src', './imagenes/pause.png')
     tiempoTranscurridoEnSegundos -= 1
-    console.log("Temporizador"+tiempoTranscurridoEnSegundos);
+    mostrarTiempo()
 }
 
 botonIniciarPausar.addEventListener('click', iniciarPausar);
@@ -105,6 +115,7 @@ botonIniciarPausar.addEventListener('click', iniciarPausar);
 function iniciarPausar () {
     if (idIntervalo){
         pausarTemporizador.play();
+        imagenIniciarPausar.setAttribute('src', './imagenes/play_arrow.png')
         reiniciar()
         return
     }
@@ -117,4 +128,13 @@ function reiniciar (){
     idIntervalo = null
     /**Text content interpreta como texto */
     textoIniciarPausar.textContent = "Comenzar"
+    /**Imagen reiniciar */
+    imagenIniciarPausar.setAttribute('src', './imagenes/play_arrow.png')
 } 
+
+function mostrarTiempo(){
+    const tiempo = new Date(tiempoTranscurridoEnSegundos * 1000)
+    const tiempoFormateado = tiempo.toLocaleTimeString('es-MX',{minute:'2-digit', second:'2-digit'})
+    tiempoEnPantalla.innerHTML = `${tiempoFormateado}`
+}
+mostrarTiempo()
