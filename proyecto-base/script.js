@@ -11,6 +11,7 @@ const botonIniciarPausar = document.querySelector('#start-pause');
 const iniciarTemporizador = new Audio('./sonidos/play.wav');
 const pausarTemporizador = new Audio('./sonidos/pause.mp3');
 const finTemporizador = new Audio('./sonidos/beep.mp3');
+const textoIniciarPausar = document.querySelector('#start-pause span');
 
 let tiempoTranscurridoEnSegundos = 5;
 let idIntervalo = null;
@@ -61,6 +62,7 @@ function cambiarContexto(contexto){
     banner.setAttribute('src',  `./imagenes/${contexto}.png`);
     switch (contexto) {
         case "enfoque":
+            /*Modifico con innerHTML que me interpreta las etiquetas html + texto */
             titulo.innerHTML = `Optimiza tu productividad,<br>
                 <strong class="app__title-strong">sumérgete en lo que importa.</strong>
             `            
@@ -92,6 +94,8 @@ const cuentaRegresiva = ()=>{
         return
     }
 
+    /*Modifico el texto del boton con text content, interpreta todo como texto */
+    textoIniciarPausar.textContent = "Pausar"
     tiempoTranscurridoEnSegundos -= 1
     console.log("Temporizador"+tiempoTranscurridoEnSegundos);
 }
@@ -111,4 +115,6 @@ function iniciarPausar () {
 function reiniciar (){
     clearInterval(idIntervalo)
     idIntervalo = null
+    /**Text content interpreta como texto */
+    textoIniciarPausar.textContent = "Comenzar"
 } 
